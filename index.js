@@ -21,9 +21,9 @@ db.serialize(()=>{
             answer.then((storyId_input)=>{
                 if(storyId_input<=row.length && storyId_input) {
                     console.log(`Processing ID ${storyId_input} Story`);
-                    storyId_input--
-                    raw_story = row[storyId_input].STORY
-                    let raw_story_id = row[storyId_input].ID
+                    storyId_input
+                    raw_story = row[storyId_input-1].STORY
+                    let raw_story_id = row[storyId_input-1].ID
                     let paragraphs = raw_story.split(/\n[^a-zA-Z]*\n[^a-zA-Z]*/)
                     // console.log(paragraphs);
                     let paragraphPhrases

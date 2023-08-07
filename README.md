@@ -3,7 +3,7 @@
 ## Requirements
 Tested this code on Mac M1. In order to work you need to have installed **Node v18.13.0** and **SQLite 3.39.5**.
 ## Setup
-Clone this repository and run `npm install`.
+Clone this repository, `cd andsoft` and run `npm install`.
 
 ## How to use
 Create a .txt file and paste inside it the story you want to save in your *RAW_STORY* table. "*example.txt*" is provided.
