@@ -12,4 +12,6 @@ Navigate to cloned repo and give the *storySaver.sh* rights to be executed using
 
 To parse the story and save it to *PROCESSED_STORY* table you can run `npm start`; story inside *RAW_STORY* table will be listed with corresponding ID, and you will be prompted to type the desired story id to parse and save the story you want. 
 ### Considerations
-I imagined a little use case to make sense of the assessment request, the only limit is the program does not recognized a story when it was yet parsed and saved to *PROCESSED_STORY* table; so if you keep selecting the same id from the list when you execute *index.js* the table will be polluted by duplicate data. Code is commented in order to show as much as possible my idea of the work. 
+I imagined a little use case to make sense of the assessment request, the only limit is the program does not recognized a story when it was yet parsed and saved to *PROCESSED_STORY* table; so if you keep selecting the same id from the list when you execute *index.js* the table will be polluted by duplicate data. 
+
+Code is commented in order to show as much as possible my idea of the work. 
