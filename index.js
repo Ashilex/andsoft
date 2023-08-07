@@ -6,31 +6,39 @@ import { log } from 'node:console';
 
 const rl = readline.createInterface({ input, output });
 
-// const sqlite3 = require('sqlite3').verbose();
+//open db
 const db = new sqlite3.Database('./andsoftDB.sqlite');
 let raw_story;
+
 db.serialize(()=>{
+    //read all lines from RAW_STORY
     let queryResult = db.all('SELECT * FROM RAW_STORY;',(err, row)=>{
+
+        //log stories to user with alternate colors, ui readability help.
         row.forEach((e, i )=>{
             i%2 ? console.log(chalk.bgBlue.bold(`Story ID: ${e.ID}\n`),chalk.blue(`${e.STORY}`),'\n')
             : console.log(chalk.bgGreen.bold(`Story ID: ${e.ID}\n`),chalk.green(`${e.STORY}`,'\n'))
         })
         
+        //ask input calls itself until input in right range is provided
         function askInput(){
             let answer = rl.question(`What story do you want to save in PROCESSED_STORY table ? Insert between 1 and ${row.length}\n`)
             answer.then((storyId_input)=>{
                 if(storyId_input<=row.length && storyId_input) {
                     console.log(`Processing ID ${storyId_input} Story`);
-                    storyId_input
                     raw_story = row[storyId_input-1].STORY
                     let raw_story_id = row[storyId_input-1].ID
+                    //split paragraphs using newlines
                     let paragraphs = raw_story.split(/\n[^a-zA-Z]*\n[^a-zA-Z]*/)
                     // console.log(paragraphs);
                     let paragraphPhrases
                     let result = []
                     paragraphs.forEach(e => {
+                        //split phrases using ".""
                         paragraphPhrases = e.split(/\.[^a-zA-Z]*/)
                         paragraphPhrases.splice(-1,1)
+                        
+                        //add to result var an object with properties to be used in db
                         paragraphPhrases.forEach((e,i)=>{
                             result.push({
                                 SENTENCE:e.concat('.'),
@@ -39,6 +47,7 @@ db.serialize(()=>{
                         })
                         })
                     });
+                    //index phrases disfructing their position in the result array. they remained sorted while parsed.
                     result.forEach((e,i)=>e.SENTENCE_NUMBER=i+1)
                     console.log("\n\nRESULT\n");
                     result.forEach(e=>{

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Check if a filename is provided as an argument
+# Check if a filename argument is provided
 if [ $# -eq 0 ]; then
     echo "Usage: $0 <filename>"
     exit 1
@@ -15,25 +15,17 @@ if [ ! -f "$filename" ]; then
     exit 1
 fi
 
-# SQLite Database Configuration
-table_name="RAW_STORY"         # Replace "your_table" with your actual table name
-
 # Read all lines from the file and join them into a single string
 file_content=$(<"$filename")
 
 echo "File Content:"
 echo "$file_content"
 
-# Read the file and print its contents to the console
 
-while IFS= read -r line; do
-    echo "$line"
-done < "$filename"
-
-sqlite3 "andsoftDB.sqlite" "CREATE TABLE IF NOT EXISTS $table_name (ID INTEGER PRIMARY KEY, STORY NVARCHAR(1000));"
+sqlite3 "andsoftDB.sqlite" "CREATE TABLE IF NOT EXISTS RAW_STORY (ID INTEGER PRIMARY KEY, STORY NVARCHAR(1000));"
 sqlite3 "andsoftDB.sqlite" "CREATE TABLE IF NOT EXISTS PROCESSED_STORY (ID integer primary key autoincrement, RAW_STORY_ID integer, SENTENCE nvarchar(200), SENTENCE_NUMBER integer, IS_NEW_PARAGRAPH bit)"
 
 # Insert the combined content as a single row into the database
-sqlite3 "andsoftDB.sqlite" "INSERT INTO $table_name (STORY) VALUES (\"$file_content\");"
+sqlite3 "andsoftDB.sqlite" "INSERT INTO RAW_STORY (STORY) VALUES (\"$file_content\");"
 
 echo "Story was inserted into db."
