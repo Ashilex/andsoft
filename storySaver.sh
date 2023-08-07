@@ -26,11 +26,13 @@ echo "File Content:"
 echo "$file_content"
 
 # Read the file and print its contents to the console
+
 while IFS= read -r line; do
     echo "$line"
 done < "$filename"
 
-sqlite3 "$db_file" "CREATE TABLE IF NOT EXISTS $table_name (id INTEGER PRIMARY KEY, content TEXT);"
+sqlite3 "andsoftDB.sqlite" "CREATE TABLE IF NOT EXISTS $table_name (ID INTEGER PRIMARY KEY, STORY NVARCHAR(1000));"
+sqlite3 "andsoftDB.sqlite" "CREATE TABLE IF NOT EXISTS PROCESSED_STORY (ID integer primary key autoincrement, RAW_STORY_ID integer, SENTENCE nvarchar(200), SENTENCE_NUMBER integer, IS_NEW_PARAGRAPH bit)"
 
 # Insert the combined content as a single row into the database
 sqlite3 "$db_file" "INSERT INTO $table_name (STORY) VALUES ('$file_content');"
