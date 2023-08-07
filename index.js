@@ -34,14 +34,21 @@ db.serialize(()=>{
                         paragraphPhrases.forEach((e,i)=>{
                             result.push({
                                 SENTENCE:e.concat('.'),
-                                IS_NEW_PARAGRAPH: Boolean(!i)
+                                IS_NEW_PARAGRAPH: Boolean(!i),
+                                RAW_STORY_ID: storyId_input
                         })
                         })
                     });
                     result.forEach((e,i)=>e.SENTENCE_NUMBER=i+1)
                     console.log("\n\nRESULT\n");
-                    result.forEach(e=>{console.log(e)})
+                    result.forEach(e=>{
+                        db.run(`INSERT INTO PROCESSED_STORY (RAW_STORY_ID, SENTENCE, IS_NEW_PARAGRAPH, SENTENCE_NUMBER) VALUES (?, ?, ?, ?)`,
+                            e.RAW_STORY_ID, e.SENTENCE, e.IS_NEW_PARAGRAPH, e.SENTENCE_NUMBER
+                        )
+                        console.log(e)})
                     rl.close()
+
+                    
                 }
                 else askInput()
             })
