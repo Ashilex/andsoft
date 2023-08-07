@@ -2,4 +2,4 @@
 /.vscode
 /andsoft
 /node_modules
-andsoftDB.sqlite
+andsoftDBC.sqlite
